@@ -70,7 +70,7 @@ const Note = (props) => {
     <div>
       <Draggable
         handle=".note-mover"
-        grid={[25, 25]}
+        grid={[50, 50]}
         position={{ x: props.note.x, y: props.note.y }}
         onStart={onStartDrag}
         onDrag={onDrag}
