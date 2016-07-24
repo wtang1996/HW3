@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import Note from './note';
 
 import InputBar from './input_bar';
+import fetchNotes from '../firebase';
 
 // example class based component (smart component)
 class App extends Component {
@@ -17,6 +18,15 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    const updateNotes = notesObjFirebase => {
+      this.setState({
+        notes: Immutable.Map(notesObjFirebase),
+      });
+    };
+    fetchNotes(updateNotes);
+  }
+
   setZIndex(id) {
     this.setState({
       maxZ: this.state.maxZ + 1,
@@ -24,9 +34,7 @@ class App extends Component {
         return Object.assign({}, n, { zIndex: this.state.maxZ });
       }),
     });
-    console.log(this.state.maxZ);
   }
-
 
   deleteNote(id) {
     this.setState({
@@ -76,7 +84,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>Note Board</h1>
+        <h1>Bulletin Board</h1>
         <InputBar addNote={titleInput => this.addNote(titleInput)} />
         <div>
         {this.state.notes.entrySeq().map(([id, note]) => {
