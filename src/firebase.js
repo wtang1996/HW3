@@ -20,6 +20,12 @@ export function fetchNotes(callback) {
 }
 
 export function addNote(id, titleInput) {
-  firebase.database().ref('notes/' + userId).set({
+  firebase.database().ref().child('notes/').push({
+    title: titleInput,
+    text: 'content',
+    x: 400,
+    y: 12,
+    zIndex: 0,
+    isEditing: false,
   });
 }
