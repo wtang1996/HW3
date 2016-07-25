@@ -18,3 +18,8 @@ export function fetchNotes(callback) {
     callback(snapshot.val());
   });
 }
+
+export function addNote(id, titleInput) {
+  firebase.database().ref('notes/' + userId).set({
+  });
+}
