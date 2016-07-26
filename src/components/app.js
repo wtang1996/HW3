@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import Note from './note';
 
 import InputBar from './input_bar';
-import fetchNotes from '../firebase';
+import * as firebase from '../firebase';
 
 // example class based component (smart component)
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
     // init component state here
     this.state = {
       notes: Immutable.Map(),
-      id: 0,
+      // id: 0,
       maxZ: 0,
     };
   }
@@ -24,61 +24,73 @@ class App extends Component {
         notes: Immutable.Map(notesObjFirebase),
       });
     };
-    fetchNotes(updateNotes);
+    const updateZ = maxZFirebase => {
+      this.setState({
+        maxZ: maxZFirebase.maxZ,
+      });
+    };
+    firebase.fetchNotes(updateNotes);
+    firebase.fetchZ(updateZ);
   }
 
   setZIndex(id) {
-    this.setState({
-      maxZ: this.state.maxZ + 1,
-      notes: this.state.notes.update(id, (n) => {
-        return Object.assign({}, n, { zIndex: this.state.maxZ });
-      }),
-    });
+    // this.setState({
+    //   maxZ: this.state.maxZ + 1,
+    //   notes: this.state.notes.update(id, (n) => {
+    //     return Object.assign({}, n, { zIndex: this.state.maxZ });
+    //   }),
+    // });
+    firebase.setZIndex(id, this.state.maxZ);
   }
 
   deleteNote(id) {
-    this.setState({
-      notes: this.state.notes.delete(id),
-    });
+    // this.setState({
+    //   notes: this.state.notes.delete(id),
+    // });
+    firebase.deleteNote(id);
   }
 
   addNote(titleInput) {
-    const note = {
-      title: titleInput,
-      text: 'content',
-      x: 400,
-      y: 12,
-      zIndex: 0,
-      isEditing: false,
-    };
-    this.setState({
-      id: this.state.id + 1,
-      notes: this.state.notes.set(this.state.id, note),
-    });
+    // const note = {
+    //   title: titleInput,
+    //   text: 'content',
+    //   x: 400,
+    //   y: 12,
+    //   zIndex: 0,
+    //   isEditing: false,
+    // };
+    // this.setState({
+    //   id: this.state.id + 1,
+    //   notes: this.state.notes.set(this.state.id, note),
+    // });
+    firebase.addNote(titleInput);
   }
 
   updatePosition(id, x, y) {
-    this.setState({
-      notes: this.state.notes.update(id, (n) => {
-        return Object.assign({}, n, { x }, { y });
-      }),
-    });
+    // this.setState({
+    //   notes: this.state.notes.update(id, (n) => {
+    //     return Object.assign({}, n, { x }, { y });
+    //   }),
+    // });
+    firebase.updatePosition(id, x, y);
   }
 
   editNote(id, status) {
-    this.setState({
-      notes: this.state.notes.update(id, (n) => {
-        return Object.assign({}, n, { isEditing: status });
-      }),
-    });
+    // this.setState({
+    //   notes: this.state.notes.update(id, (n) => {
+    //     return Object.assign({}, n, { isEditing: status });
+    //   }),
+    // });
+    firebase.editNote(id, status);
   }
 
   editText(id, text) {
-    this.setState({
-      notes: this.state.notes.update(id, (n) => {
-        return Object.assign({}, n, { text });
-      }),
-    });
+    // this.setState({
+    //   notes: this.state.notes.update(id, (n) => {
+    //     return Object.assign({}, n, { text });
+    //   }),
+    // });
+    firebase.editText(id, text);
   }
 
   render() {
